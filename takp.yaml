@@ -1,0 +1,46 @@
+name: "EverQuest: The Al'Kabor Project"
+notes: "Modify the eqclient.ini to your specific settings after installation.\r\n\r\nDownload the TAKP client v2.1c:\r\nhttps://www.dropbox.com/scl/fi/ywij7nzh7zu22oefpxgpt/TAKP-PC-V2.1c.zip?rlkey=m7oo0kkbn20ov8rvmatdb3rnr&e=1&dl=0\r\n\r\nVisit the TAKP 'Getting Started' wiki for any troubleshooting or questions: https://wiki.takp.info/index.php?title=Getting_Started\r\n\r\nThis client includes the following:\r\n  - dgVoodoo's d3d8.dll\r\n  - freethemouse v3.5.3.2c for both eqgame.exe and eqgame.dll\r\n  - Includes common eqclient.ini settings, such as FPS limiting."
+runner: wine
+script:
+  custom-name: The Al'Kabor Project
+  files:
+  - takpFile: N/A:Select the game's setup file
+  game:
+    exe: drive_c/Program Files/EverQuest/eqgame.exe
+    prefix: $GAMEDIR
+  installer:
+  - task:
+      arch: win32
+      description: Creating WINE prefix
+      name: create_prefix
+      prefix: $GAMEDIR
+  - task:
+      arch: win32
+      app: win7
+      name: winetricks
+      prefix: $GAMEDIR
+  - extract:
+      file: takpFile
+      dst: $GAMEDIR/drive_c/Program Files/EverQuest
+  - task:
+      name: winetricks
+      app: corefonts dinput8 vcrun2010 dxvk
+      arch: win32
+      description: Installing Corefonts, dinput8, vcrun2010 and dxvk
+      prefix: $GAMEDIR
+      silent: false
+  - task:
+      arch: win32
+      description: Adding DLL override for D3D8
+      name: set_regedit
+      path: HKEY_CURRENT_USER\Software\Wine\DllOverrides
+      key: d3d8
+      value: native
+      type: REG_SZ
+  wine:
+    arch: win32
+    esync: false
+slug: everquest-the-alkabor-project
+steamid: 205710
+version: TAKP
+year: 1999
