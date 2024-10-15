@@ -2,7 +2,7 @@ Repository for work I'm doing to support [The Al'Kabor Project](https://www.takp
 
 Lutris Install Script
 --------------------
-I've submitted the script to be included in the Lutris search for EverQuest; however, it seems like it can take awhile to get approved. Even then, I wasn't able to submit specifics, such as the `slug_name`.
+I've submitted the script to be included in the Lutris search for EverQuest; however, it seems like it can take awhile to get approved. Even then, I wasn't able to submit specifics, such as the `slug` name.
 
 I will update this once/if it is approved.
 
