@@ -1,3 +1,10 @@
+description: EverQuest The Al'Kabor Project
+game_slug: everquest
+gogslug: ''
+humblestoreid: ''
+installer_slug: everquest-takp
+name: takp
+runner: wine
 script:
   custom-name: The Al'Kabor Project
   files:
@@ -37,3 +44,6 @@ script:
   wine:
     arch: win32
     esync: false
+slug: everquest-takp
+version: The Al'Kabor Project
+year: 1999
