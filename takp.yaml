@@ -3,7 +3,7 @@ game_slug: everquest
 gogslug: ''
 humblestoreid: ''
 installer_slug: everquest-takp
-name: takp
+name: Everquest The Al'Kabor Project
 runner: wine
 script:
   custom-name: The Al'Kabor Project
