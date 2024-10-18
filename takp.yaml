@@ -3,7 +3,7 @@ game_slug: everquest
 gogslug: ''
 humblestoreid: ''
 installer_slug: everquest-takp
-name: Everquest The Al'Kabor Project
+name: "Everquest: The Al'Kabor Project"
 runner: wine
 script:
   custom-name: The Al'Kabor Project
@@ -41,9 +41,15 @@ script:
       key: d3d8
       value: native
       type: REG_SZ
+  - write_config:
+      file: $GAMEDIR/drive_c/Program Files/EverQuest/eqclient.ini
+      data:
+        Defaults:
+          AttackOnAssist: false
   wine:
     arch: win32
-    esync: false
+    dgvoodoo2: true
 slug: everquest-takp
-version: The Al'Kabor Project
+steamid: 205710
+version: EverQuest The Al'Kabor Project
 year: 1999
