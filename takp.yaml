@@ -10,6 +10,7 @@ script:
   files:
   - takpFile: N/A:Select the game's setup file
   game:
+    arch: win32
     exe: drive_c/Program Files/EverQuest/eqgame.exe
     prefix: $GAMEDIR
   installer:
