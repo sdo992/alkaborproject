@@ -3,54 +3,66 @@ game_slug: everquest
 gogslug: ''
 humblestoreid: ''
 installer_slug: everquest-takp
-name: "Everquest: The Al'Kabor Project"
+name: "EverQuest: The Al'Kabor Project"
 runner: wine
-script:
-  custom-name: The Al'Kabor Project
-  files:
-  - takpFile: N/A:Select the game's setup file
-  game:
-    arch: win32
-    exe: drive_c/Program Files/EverQuest/eqgame.exe
-    prefix: $GAMEDIR
-  installer:
-  - task:
-      arch: win32
-      description: Creating WINE prefix
-      name: create_prefix
-      prefix: $GAMEDIR
-  - task:
-      arch: win32
-      app: win7
-      name: winetricks
-      prefix: $GAMEDIR
-  - extract:
-      file: takpFile
-      dst: $GAMEDIR/drive_c/Program Files/EverQuest
-  - task:
-      name: winetricks
-      app: corefonts dinput8 vcrun2010 dxvk
-      arch: win32
-      description: Installing Corefonts, dinput8, vcrun2010 and dxvk
-      prefix: $GAMEDIR
-      silent: false
-  - task:
-      arch: win32
-      description: Adding DLL override for D3D8
-      name: set_regedit
-      path: HKEY_CURRENT_USER\Software\Wine\DllOverrides
-      key: d3d8
-      value: native
-      type: REG_SZ
-  - write_config:
-      file: $GAMEDIR/drive_c/Program Files/EverQuest/eqclient.ini
-      data:
-        Defaults:
-          AttackOnAssist: false
-  wine:
-    arch: win32
-    dgvoodoo2: true
 slug: everquest-takp
 steamid: 205710
 version: EverQuest The Al'Kabor Project
 year: 1999
+
+script:
+  custom-name: The Al'Kabor Project
+
+  files:
+    - takpFile: N/A:Select the game's setup file
+
+  game:
+    arch: win32
+    exe: drive_c/Program Files/EverQuest/eqgame.exe
+    args: patchme
+    prefix: $GAMEDIR
+
+  installer:
+    - task:
+        name: create_prefix
+        arch: win32
+        prefix: $GAMEDIR
+        description: Creating WINE prefix
+
+    - task:
+        name: winetricks
+        app: win7
+        arch: win32
+        prefix: $GAMEDIR
+        description: Setting Windows version to Windows 7
+
+    - extract:
+        file: takpFile
+        dst: $GAMEDIR/drive_c/Program Files/EverQuest
+
+    - task:
+        name: winetricks
+        app: corefonts dinput8 vcrun2010 dxvk
+        arch: win32
+        prefix: $GAMEDIR
+        description: Installing Corefonts, DirectInput 8, VC++ 2010 runtime, and DXVK
+        silent: false
+
+    - task:
+        name: set_regedit
+        arch: win32
+        prefix: $GAMEDIR
+        description: Using bundled native d3d8 wrapper
+        path: HKEY_CURRENT_USER\Software\Wine\DllOverrides
+        key: d3d8
+        value: native,builtin
+        type: REG_SZ
+
+    - write_config:
+        file: $GAMEDIR/drive_c/Program Files/EverQuest/eqclient.ini
+        data:
+          Defaults:
+            AttackOnAssist: false
+
+  wine:
+    arch: win32
