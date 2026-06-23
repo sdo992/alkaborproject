@@ -14,27 +14,21 @@ script:
   custom-name: The Al'Kabor Project
 
   files:
-    - takpFile: N/A:Select the game's setup file
+    - takpFile: N/A:Select the TAKP setup zip file
 
   game:
     arch: win32
-    exe: drive_c/Program Files/EverQuest/eqgame.exe
+    exe: $GAMEDIR/drive_c/Program Files/EverQuest/eqgame.exe
     args: patchme
     prefix: $GAMEDIR
+    working_dir: $GAMEDIR/drive_c/Program Files/EverQuest
 
   installer:
     - task:
         name: create_prefix
         arch: win32
         prefix: $GAMEDIR
-        description: Creating WINE prefix
-
-    - task:
-        name: winetricks
-        app: win7
-        arch: win32
-        prefix: $GAMEDIR
-        description: Setting Windows version to Windows 7
+        description: Creating 32-bit Wine prefix
 
     - extract:
         file: takpFile
@@ -42,19 +36,53 @@ script:
 
     - task:
         name: winetricks
-        app: corefonts dinput8 vcrun2010 dxvk
+        app: corefonts
         arch: win32
         prefix: $GAMEDIR
-        description: Installing Corefonts, DirectInput 8, VC++ 2010 runtime, and DXVK
-        silent: false
+        description: Installing core fonts
+        silent: true
+
+    - task:
+        name: winetricks
+        app: dinput8
+        arch: win32
+        prefix: $GAMEDIR
+        description: Installing DirectInput 8
+        silent: true
+
+    - task:
+        name: winetricks
+        app: vcrun2010
+        arch: win32
+        prefix: $GAMEDIR
+        description: Installing VC++ 2010 runtime
+        silent: true
+
+    - task:
+        name: winetricks
+        app: dxvk
+        arch: win32
+        prefix: $GAMEDIR
+        description: Installing DXVK
+        silent: true
 
     - task:
         name: set_regedit
         arch: win32
         prefix: $GAMEDIR
-        description: Using bundled native d3d8 wrapper
+        description: Using bundled native D3D8 wrapper
         path: HKEY_CURRENT_USER\Software\Wine\DllOverrides
         key: d3d8
+        value: native,builtin
+        type: REG_SZ
+
+    - task:
+        name: set_regedit
+        arch: win32
+        prefix: $GAMEDIR
+        description: Using native DirectInput 8
+        path: HKEY_CURRENT_USER\Software\Wine\DllOverrides
+        key: dinput8
         value: native,builtin
         type: REG_SZ
 
@@ -62,7 +90,10 @@ script:
         file: $GAMEDIR/drive_c/Program Files/EverQuest/eqclient.ini
         data:
           Defaults:
-            AttackOnAssist: false
+            AttackOnAssist: FALSE
 
   wine:
+    version: wine-ge-8-26-x86_64
     arch: win32
+    dxvk: true
+    dgvoodoo2: false
